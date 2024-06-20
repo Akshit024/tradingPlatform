@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,13 +22,13 @@ public class UserController {
     @Autowired
     private VerificationCodeService verificationCodeService;
 
-    @GetMapping("/profile")
+    @GetMapping("/api/users/profile")
     public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/verification/{verificationType}/send-otp")
+    @PostMapping("/api/users/verification/{verificationType}/send-otp")
     public ResponseEntity<String> sendVerificationOtp(@RequestHeader("Authorization") String jwt,@PathVariable String verificationType) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         VerificationCode verificationCode = verificationCodeService.getVerificationCodeByUser(user.getId());
@@ -43,7 +42,7 @@ public class UserController {
 
         return new ResponseEntity<>("verification Otp Send Successfully", HttpStatus.OK);
     }
-    @PatchMapping("/enable-two-factor/verify-otp/{otp}")
+    @PatchMapping("/api/users/enable-two-factor/verify-otp/{otp}")
     public ResponseEntity<User> enableTwoFactorAuthentication(@RequestHeader("Authorization") String jwt,@PathVariable String otp) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         VerificationCode verificationCode = verificationCodeService.getVerificationCodeByUser(user.getId());
