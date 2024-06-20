@@ -1,10 +1,11 @@
-package com.akshit.treading.service;
+package com.akshit.treading.service.Implementation;
 
 import com.akshit.treading.config.JwtProvider;
 import com.akshit.treading.domain.VerificationType;
 import com.akshit.treading.modal.TwoFactorAuth;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.repository.UserRepository;
+import com.akshit.treading.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 

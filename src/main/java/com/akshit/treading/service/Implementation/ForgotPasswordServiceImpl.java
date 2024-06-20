@@ -1,9 +1,10 @@
-package com.akshit.treading.service;
+package com.akshit.treading.service.Implementation;
 
 import com.akshit.treading.domain.VerificationType;
 import com.akshit.treading.modal.ForgotPasswordToken;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.repository.ForgotPasswordRepository;
+import com.akshit.treading.service.ForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;

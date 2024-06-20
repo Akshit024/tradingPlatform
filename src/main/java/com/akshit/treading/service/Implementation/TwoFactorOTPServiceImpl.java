@@ -1,8 +1,9 @@
-package com.akshit.treading.service;
+package com.akshit.treading.service.Implementation;
 
 import com.akshit.treading.modal.TwoFactorOTP;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.repository.TwoFactorOTPRepository;
+import com.akshit.treading.service.TwoFactorOTPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

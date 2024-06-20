@@ -1,9 +1,10 @@
-package com.akshit.treading.service;
+package com.akshit.treading.service.Implementation;
 
 import com.akshit.treading.domain.VerificationType;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.VerificationCode;
 import com.akshit.treading.repository.VerificationCodeRepository;
+import com.akshit.treading.service.VerificationCodeService;
 import com.akshit.treading.utils.OTPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
