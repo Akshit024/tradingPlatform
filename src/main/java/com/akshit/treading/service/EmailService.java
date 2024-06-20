@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    @Autowired
+
     private JavaMailSender javaMailSender;
 
     public void sandVerificationOtpEmail(String email, String otp) throws MessagingException {
