@@ -1,2 +1,6 @@
-package com.akshit.treading.domain;public enum OrderType {
+package com.akshit.treading.domain;
+
+public enum OrderType {
+    BUY,
+    SELL,
 }
