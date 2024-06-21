@@ -2,12 +2,10 @@ package com.akshit.treading.service.Implementation;
 
 import com.akshit.treading.domain.OrderStatus;
 import com.akshit.treading.domain.OrderType;
-import com.akshit.treading.modal.Coin;
-import com.akshit.treading.modal.Order;
-import com.akshit.treading.modal.OrderItem;
-import com.akshit.treading.modal.User;
+import com.akshit.treading.modal.*;
 import com.akshit.treading.repository.OrderItemRepository;
 import com.akshit.treading.repository.OrderRepository;
+import com.akshit.treading.service.AssetService;
 import com.akshit.treading.service.OrderService;
 import com.akshit.treading.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private WalletService walletService;
+
+    @Autowired
+    private AssetService assetService;
 
     @Override
     public Order createOrder(User user, OrderItem orderItem, OrderType orderType) {
@@ -74,6 +75,15 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderstatus(OrderStatus.SUCCESS);
         order.setOrderType(OrderType.BUY);
         Order savedOrder = orderRepository.save(order);
+
+        Asset asset = assetService.findAssetByUserIdAndCoinId(user.getId(), coin.getId());
+
+        if(asset == null){
+            assetService.createAsset(user,coin,quantity);
+        }else{
+            assetService.updateAsset(asset.getId(),quantity);
+        }
+
         // create Asset
         return savedOrder;
     }
@@ -82,14 +92,19 @@ public class OrderServiceImpl implements OrderService {
     public Order sellAsset(Coin coin,double quantity,User user) throws Exception {
         if(quantity<=0) throw new Exception("quantity should be grater then zero");
         double sellPrice = coin.getCurrentPrice();
-        OrderItem item = createOrderItem(coin,quantity,0,sellPrice);
+        Asset asset = assetService.findAssetByUserIdAndCoinId(user.getId(), coin.getId());
+        if(asset == null) throw new Exception("Asset Not Present");
+        OrderItem item = createOrderItem(coin,quantity,asset.getBuyPrice(),sellPrice);
         Order order = createOrder(user,item,OrderType.SELL);
         item.setOrder(order);
+
+        if(quantity<asset.getQuantity()) throw new Exception("Insufficient Quantity");
         walletService.payOrderPayment(order,user);
         order.setOrderstatus(OrderStatus.SUCCESS);
         order.setOrderType(OrderType.SELL);
         Order savedOrder = orderRepository.save(order);
-        // create Asset
+        Asset updatedAsset = assetService.updateAsset(asset.getId(),-quantity);
+        if(updatedAsset.getQuantity() == 0) assetService.deleteAsset(updatedAsset.getId());
         return savedOrder;
     }
     @Override

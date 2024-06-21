@@ -1,5 +1,6 @@
 package com.akshit.treading.controller;
 
+import com.akshit.treading.modal.Order;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.Wallet;
 import com.akshit.treading.modal.WalletTransaction;
@@ -37,6 +38,14 @@ public class WalletController {
         Wallet wallet = walletService.findWalletById(walletId);
         Wallet senderWallet = walletService.transferFunds(user,wallet,req.getAmount());
         return new ResponseEntity<>(wallet, HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/order/{orderId}/pay")
+    public ResponseEntity<Wallet> payOrderPayment(@RequestHeader("Authorization") String jwt,@PathVariable Long orderId) throws Exception {
+        User user = userService.findUserProfileByJwt(jwt);
+        Order order = orderService.getOrderById(orderId);
+        Wallet wallet = walletService.payOrderPayment(order,user);
+        return new ResponseEntity<>(wallet,HttpStatus.ACCEPTED);
     }
 
 }
