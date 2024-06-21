@@ -6,9 +6,11 @@ import com.akshit.treading.modal.User;
 import com.akshit.treading.repository.ForgotPasswordRepository;
 import com.akshit.treading.service.ForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     @Autowired

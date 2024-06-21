@@ -7,10 +7,12 @@ import com.akshit.treading.modal.Wallet;
 import com.akshit.treading.repository.WalletRepository;
 import com.akshit.treading.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+@Service
 public class WalletServiceImpl implements WalletService {
     @Autowired
     private WalletRepository walletRepository;
