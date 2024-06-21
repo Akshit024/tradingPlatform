@@ -29,7 +29,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet addBalance(Wallet wallet, Long amount) {
+    public Wallet addBalance(Wallet wallet, double amount) {
         wallet.setBalance(wallet.getBalance().add(BigDecimal.valueOf(amount)));
         return walletRepository.save(wallet);
     }
@@ -42,7 +42,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet transferFunds(User sender, Wallet receiver, Long amount) throws Exception {
+    public Wallet transferFunds(User sender, Wallet receiver, double amount) throws Exception {
         Wallet wallet = getUserWallet(sender);
         if(wallet.getBalance().compareTo(BigDecimal.valueOf(amount))<0) throw new Exception("Insufficient Balance ........");
         wallet.setBalance(wallet.getBalance().subtract(BigDecimal.valueOf(amount)));
