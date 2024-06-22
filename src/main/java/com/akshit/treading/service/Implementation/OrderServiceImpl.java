@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public List<Order> getAllOrderOfUser(Long userId, OrderType orderType, String assetSymbol) {
-        return orderRepository.findBYUserId(userId);
+        return orderRepository.findByUserId(userId);
     }
 
     @Override

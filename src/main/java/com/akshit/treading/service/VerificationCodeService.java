@@ -5,6 +5,7 @@ import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.VerificationCode;
 import org.springframework.stereotype.Service;
 
+@Service
 
 public interface VerificationCodeService {
 

@@ -3,6 +3,9 @@ package com.akshit.treading.service;
 import com.akshit.treading.modal.Coin;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.Watchlist;
+import org.springframework.stereotype.Service;
+
+@Service
 
 public interface WatchlistService {
 

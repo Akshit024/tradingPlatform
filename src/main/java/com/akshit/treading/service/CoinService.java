@@ -1,8 +1,10 @@
 package com.akshit.treading.service;
 
 import com.akshit.treading.modal.Coin;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Service
 
 public interface CoinService {
 

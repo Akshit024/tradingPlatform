@@ -3,9 +3,10 @@ package com.akshit.treading.service;
 import com.akshit.treading.modal.Asset;
 import com.akshit.treading.modal.Coin;
 import com.akshit.treading.modal.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public interface AssetService {
     Asset createAsset(User user, Coin coin,double quantity);
 

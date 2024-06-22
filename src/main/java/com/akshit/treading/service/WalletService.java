@@ -3,7 +3,9 @@ package com.akshit.treading.service;
 import com.akshit.treading.modal.Order;
 import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.Wallet;
+import org.springframework.stereotype.Service;
 
+@Service
 
 public interface WalletService {
 

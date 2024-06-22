@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public interface OrderService {
 
     Order createOrder(User user, OrderItem orderItem, OrderType orderType);

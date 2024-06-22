@@ -5,7 +5,9 @@ import com.akshit.treading.modal.User;
 import com.akshit.treading.repository.PaymentDetailsRepository;
 import com.akshit.treading.service.PaymentDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PaymentDetailsServiceImpl implements PaymentDetailsService {
     @Autowired
     private PaymentDetailsRepository paymentDetailsRepository;

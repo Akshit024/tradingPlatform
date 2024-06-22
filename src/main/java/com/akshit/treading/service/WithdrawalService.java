@@ -2,8 +2,11 @@ package com.akshit.treading.service;
 
 import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.Withdrawal;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@Service
 
 public interface WithdrawalService {
 
