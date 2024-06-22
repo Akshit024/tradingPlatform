@@ -8,6 +8,7 @@ import com.akshit.treading.response.AuthResponse;
 import com.akshit.treading.service.CustomUserDetailsService;
 import com.akshit.treading.service.EmailService;
 import com.akshit.treading.service.TwoFactorOTPService;
+import com.akshit.treading.service.WatchlistService;
 import com.akshit.treading.utils.OTPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,9 @@ public class AuthController {
     private TwoFactorOTPService twoFactorOTPService;
 
     @Autowired
+    private WatchlistService watchlistService;
+
+    @Autowired
     private EmailService emailService;
 
     @PostMapping("/signup")
@@ -49,7 +53,8 @@ public class AuthController {
         newUser.setFullName(user.getFullName());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(user.getPassword());
-        userRepository.save(newUser);
+        User saved = userRepository.save(newUser);
+        watchlistService.createWatchlist(saved);
 
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(auth);

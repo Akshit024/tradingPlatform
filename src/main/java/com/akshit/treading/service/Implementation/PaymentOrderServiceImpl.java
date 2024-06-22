@@ -83,7 +83,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     }
 
     @Override
-    public PaymentResponse createRazorPayPaymentLink(User user, double amount) throws RazorpayException {
+    public PaymentResponse createRazorPayPaymentLink(User user, double amount,Long orderId) throws RazorpayException {
         Long Amount = (long)(amount*100);
         try {
             RazorpayClient razorpayClient = new RazorpayClient(apiKey,apiSecretKey);
@@ -101,7 +101,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             paymentLinkObject.put("notify",notify);
 
             paymentLinkObject.put("reminder_enable",true);
-            paymentLinkObject.put("callback_url","http://localhost:5173/wallet");
+            paymentLinkObject.put("callback_url","http://localhost:5173/wallet?order_id="+orderId);
             paymentLinkObject.put("callback_method","ret");
 
             PaymentLink payment = razorpayClient.paymentLink.create(paymentLinkObject);

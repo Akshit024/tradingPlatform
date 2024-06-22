@@ -1,15 +1,15 @@
 package com.akshit.treading.controller;
 
+import com.akshit.treading.domain.WalletTransactionType;
 import com.akshit.treading.modal.*;
 import com.akshit.treading.response.PaymentResponse;
-import com.akshit.treading.service.OrderService;
-import com.akshit.treading.service.PaymentOrderService;
-import com.akshit.treading.service.UserService;
-import com.akshit.treading.service.WalletService;
+import com.akshit.treading.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/wallet")
@@ -27,6 +27,9 @@ public class WalletController {
     @Autowired
     private PaymentOrderService paymentOrderService;
 
+    @Autowired
+    private WalletTransactionService walletTransactionService;
+
     @GetMapping
     public ResponseEntity<Wallet> getUserWallet(@RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
@@ -39,7 +42,8 @@ public class WalletController {
         User user = userService.findUserProfileByJwt(jwt);
         Wallet wallet = walletService.findWalletById(walletId);
         Wallet senderWallet = walletService.transferFunds(user,wallet,req.getAmount());
-        return new ResponseEntity<>(wallet, HttpStatus.ACCEPTED);
+        walletTransactionService.createTransaction(senderWallet, WalletTransactionType.WALLET_TRANSACTION,wallet.getId(),req.getPurpose(),req.getAmount());
+        return new ResponseEntity<>(senderWallet, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/order/{orderId}/pay")
@@ -60,7 +64,9 @@ public class WalletController {
         PaymentOrder order = paymentOrderService.getPaymentOrderById(orderId);
 
         Boolean status = paymentOrderService.proceedPaymentOrder(order,paymentId);
-
+        if(wallet.getBalance()==null){
+            wallet.setBalance(BigDecimal.valueOf(0));
+        }
         if(status){
             wallet = walletService.addBalance(wallet,order.getAmount());
         }
