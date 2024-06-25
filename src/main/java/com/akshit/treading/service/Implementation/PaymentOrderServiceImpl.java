@@ -34,7 +34,7 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
     @Value("${razorpay.api.key}")
     private String apiKey;
 
-    @Value("${stripe.api.secret}")
+    @Value("${razorpay.api.secret}")
     private String apiSecretKey;
 
 
@@ -61,8 +61,8 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
             if(paymentOrder.getPaymentMethod().equals(PaymentMethod.RAZORPAY)){
                 RazorpayClient razorpayClient = new RazorpayClient(apiKey,apiSecretKey);
                 Payment payment = razorpayClient.payments.fetch(paymentId);
-
                 String status = payment.get("status");
+
                 if(status.equals("captured")){
                     paymentOrder.setPaymentOrderStatus(PaymentOrderStatus.SUCCESS);
                     paymentOrderRepository.save(paymentOrder);
@@ -102,18 +102,13 @@ public class PaymentOrderServiceImpl implements PaymentOrderService {
 
             paymentLinkObject.put("reminder_enable",true);
             paymentLinkObject.put("callback_url","http://localhost:5173/wallet?order_id="+orderId);
-            paymentLinkObject.put("callback_method","ret");
+            paymentLinkObject.put("callback_method","get");
 
             PaymentLink payment = razorpayClient.paymentLink.create(paymentLinkObject);
-
-            String paymentLinkId = payment.get("id");
             String paymentLinkUrl = payment.get("short_url");
-
             PaymentResponse res = new PaymentResponse();
             res.setPayment_url(paymentLinkUrl);
-
             return res;
-
         }catch (Exception e){
             System.out.println("Error Creating Payment Link : " + e.getMessage());
             throw  new RazorpayException(e.getMessage());

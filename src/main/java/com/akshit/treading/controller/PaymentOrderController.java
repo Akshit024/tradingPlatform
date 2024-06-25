@@ -26,9 +26,7 @@ public class PaymentOrderController {
     public ResponseEntity<PaymentResponse> paymentHandler(@RequestHeader("Authorization") String jwt, @PathVariable PaymentMethod paymentMethod,@PathVariable double amount) throws Exception, RazorpayException, StripeException {
         User user = userService.findUserProfileByJwt(jwt);
         PaymentResponse paymentResponse;
-
         PaymentOrder order = paymentOrderService.createOrder(user,amount,paymentMethod);
-
         if(paymentMethod.equals(PaymentMethod.RAZORPAY)){
             paymentResponse = paymentOrderService.createRazorPayPaymentLink(user,amount,order.getId());
         }else{
