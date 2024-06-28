@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/wallet")
@@ -34,7 +35,7 @@ public class WalletController {
     public ResponseEntity<Wallet> getUserWallet(@RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         Wallet wallet = walletService.getUserWallet(user);
-        return new ResponseEntity<>(wallet, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(wallet, HttpStatus.OK);
     }
 
     @PutMapping("/{walletId}/transfer")
@@ -43,7 +44,7 @@ public class WalletController {
         Wallet wallet = walletService.findWalletById(walletId);
         Wallet senderWallet = walletService.transferFunds(user,wallet,req.getAmount());
         walletTransactionService.createTransaction(senderWallet, WalletTransactionType.WALLET_TRANSACTION,wallet.getId(),req.getPurpose(),req.getAmount());
-        return new ResponseEntity<>(senderWallet, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(senderWallet, HttpStatus.OK);
     }
 
     @PutMapping("/order/{orderId}/pay")

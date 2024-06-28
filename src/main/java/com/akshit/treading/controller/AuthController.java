@@ -79,22 +79,22 @@ public class AuthController {
         String jwt = JwtProvider.generateToken(auth);
 
         User authUser = userRepository.findByEmail(userName);
-        if(user.getTwoFactorAuth().isEnabled()){
-            AuthResponse res = new AuthResponse();
-            res.setMessage("Two factor Authentication is Enabled");
-            res.setIsTwoFactorAuthEnabled(true);
-            String otp = OTPUtils.generateOtp();
-
-            TwoFactorOTP oldTwoFactorOtp = twoFactorOTPService.findByUserId(authUser.getId());
-
-            if(oldTwoFactorOtp != null) twoFactorOTPService.deleteTwoFactorOtp(oldTwoFactorOtp);
-
-            TwoFactorOTP newTwoFactorOtp = twoFactorOTPService.createTwoFactorOtp(authUser,otp,jwt);
-
-            emailService.sandVerificationOtpEmail(userName,otp);
-            res.setSession(newTwoFactorOtp.getId());
-            return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
-        }
+//        if(user.getTwoFactorAuth().isEnabled()){
+//            AuthResponse res = new AuthResponse();
+//            res.setMessage("Two factor Authentication is Enabled");
+//            res.setIsTwoFactorAuthEnabled(true);
+//            String otp = OTPUtils.generateOtp();
+//
+//            TwoFactorOTP oldTwoFactorOtp = twoFactorOTPService.findByUserId(authUser.getId());
+//
+//            if(oldTwoFactorOtp != null) twoFactorOTPService.deleteTwoFactorOtp(oldTwoFactorOtp);
+//
+//            TwoFactorOTP newTwoFactorOtp = twoFactorOTPService.createTwoFactorOtp(authUser,otp,jwt);
+//
+//            emailService.sandVerificationOtpEmail(userName,otp);
+//            res.setSession(newTwoFactorOtp.getId());
+//            return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
+//        }
 
         AuthResponse res = new AuthResponse();
         res.setJwt(jwt);

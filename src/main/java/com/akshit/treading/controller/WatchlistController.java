@@ -25,27 +25,27 @@ public class WatchlistController {
     private CoinService coinService;
 
     @GetMapping("/user")
-    public ResponseEntity<?> getUserWatchList(@RequestHeader("Authorization") String jwt) throws Exception {
+    public ResponseEntity<Watchlist> getUserWatchList(@RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         Watchlist watchlist = watchlistService.findUserWatchlist(user.getId());
-        return new ResponseEntity<>(watchlist, HttpStatus.FOUND);
+        return new ResponseEntity<>(watchlist, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createWatchlist(@RequestHeader("Authorization") String jwt) throws Exception {
+    public ResponseEntity<Watchlist> createWatchlist(@RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         Watchlist watchlist = watchlistService.createWatchlist(user);
         return new ResponseEntity<>(watchlist, HttpStatus.CREATED);
     }
 
     @GetMapping("/{watchlistId}")
-    public ResponseEntity<?> getUserWatchList(@PathVariable Long watchlistId) throws Exception {
+    public ResponseEntity<Watchlist> getUserWatchList(@PathVariable Long watchlistId) throws Exception {
         Watchlist watchlist = watchlistService.findById(watchlistId);
         return new ResponseEntity<>(watchlist, HttpStatus.FOUND);
     }
 
-    @PatchMapping("/add/coin/coinId")
-    public ResponseEntity<?> addItemToWatchlist(@RequestHeader("Authorization") String jwt,@PathVariable String coinId) throws Exception {
+    @PatchMapping("/add/coin/{coinId}")
+    public ResponseEntity<Coin> addItemToWatchlist(@RequestHeader("Authorization") String jwt,@PathVariable String coinId) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         Coin coin = coinService.findById(coinId);
         watchlistService.addCoinToWatchlist(coin,user);

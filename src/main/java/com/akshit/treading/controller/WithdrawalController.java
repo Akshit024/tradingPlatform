@@ -34,7 +34,7 @@ public class WithdrawalController {
     private WalletTransactionService walletTransactionService;
 
 
-    @PostMapping("/withdrawal/amount")
+    @PostMapping("/withdrawal/{amount}")
     public ResponseEntity<?> withdrawalRequest(@PathVariable double amount, @RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         Wallet wallet = walletService.getUserWallet(user);
