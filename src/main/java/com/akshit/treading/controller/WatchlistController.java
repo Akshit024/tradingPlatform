@@ -5,7 +5,6 @@ import com.akshit.treading.modal.User;
 import com.akshit.treading.modal.Watchlist;
 import com.akshit.treading.service.CoinService;
 import com.akshit.treading.service.UserService;
-import com.akshit.treading.service.WalletService;
 import com.akshit.treading.service.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -41,13 +41,6 @@ public class CoinController {
         return new ResponseEntity<>(jsonNode, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/top50")
-    public ResponseEntity<JsonNode> getTop50CoinByMarketCapRank() throws Exception {
-        String resp = coinService.getTop50CoinByMarketCapRank();
-        JsonNode jsonNode = objectMapper.readTree(resp);
-        return new ResponseEntity<>(jsonNode, HttpStatus.ACCEPTED);
-    }
-
     @GetMapping("/treading")
     public ResponseEntity<JsonNode> getTreadingCoin() throws Exception {
         String resp = coinService.getTreadingCoin();
